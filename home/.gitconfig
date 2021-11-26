@@ -1,0 +1,4 @@
+[core]
+	excludesfile = ~/.user_gitignore
+[init]
+	defaultBranch = main

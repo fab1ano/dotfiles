@@ -1,0 +1,25 @@
+# Idea
+.idea
+
+# Vim
+.*.swp
+.*.swo
+.swp
+
+# Python
+__pycache__
+
+# IDA
+*.id0
+*.id1
+*.id2
+*.nam
+*.til
+
+# Jekyll
+.jekyll-cache
+Gemfile.lock
+
+# JabRef
+*.bib.bak
+*.bib.sav
