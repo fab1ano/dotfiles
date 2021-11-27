@@ -4,59 +4,52 @@
 set nocompatible
 filetype off
 
-" highlighted search
+" Highlighted search
 set hlsearch
 
-" tabs
+" Tabs
 set list
 set listchars=tab:\|\ 
 set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 
-" enable syntax
+" Enable syntax
 syntax on
 
-" corsorline/-column and linenumbers
+" Corsorline/-column and linenumbers
 set relativenumber
 set cursorline
 set cursorcolumn
 
-" scroll offset
+" Scroll offset
 set scrolloff=10
 
-" enable verbose tab completion
+" Enable verbose tab completion
 set wildmenu
 
-" enable file specific configs
+" Enable file specific configs
 set modeline
 
-" open files
+" Open files
 nnoremap <leader>o  :Files<CR>
 nnoremap <leader>O  :tabe<CR>:Files<CR>
 
-" enable project specific config files
+" Enable project specific config files
 set exrc
 
-" enable solarized colortheme
+" Solarized colortheme
+let g:solarized_termtrans=1
 colorscheme solarized
 
 " Custom colors
-hi LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=194
-hi CursorLineNr ctermbg=194
-
-hi CursorLine term=none cterm=none ctermbg=194
-hi CursorColumn ctermbg=194
-
-hi SignColumn ctermbg=194
-
-hi TabLineSel term=bold cterm=bold ctermfg=255 ctermbg=0
-hi TabLine term=none cterm=none ctermfg=245 ctermbg=0
-hi TabLineFill term=bold cterm=bold ctermfg=245 ctermbg=0
+hi TabLineSel term=bold cterm=bold ctermfg=white ctermbg=0
+hi TabLine term=none cterm=none ctermfg=gray ctermbg=0
+hi TabLineFill term=none cterm=none ctermfg=gray ctermbg=0
 
 hi SpecialKey ctermbg=none
 
-" hide EndOfBuffer (tilde)
+" Hide EndOfBuffer (tilde)
 hi EndOfBuffer ctermfg=0 ctermbg=none
 
-" line overlength
-highlight OverLength ctermbg=194
+" Line overlength
+highlight OverLength ctermbg=7
 match OverLength /\%81v./
