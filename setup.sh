@@ -31,11 +31,8 @@ if [[ $failed_submodules == *"could not create empty submodule directory"*  ]]; 
 	exit
 fi
 
-# Create required directories
-find . -type d | xargs -I {} mkdir -p ~/{}
-
 # Link config files
-find . -type f -printf '%P\n' | xargs -I {} ln -sf ${PWD}/{} ~/{}
+find . -type f -printf '%P\n' | xargs -I {} sh -c 'mkdir -p $(dirname ~/{}); ln -sf ${PWD}/{} ~/{}'
 
 # Link submodules
 git submodule status -- . | awk '{ print $2  }' | xargs -I {} sh -c "rm -rf ~/{}; ln -sf ${PWD}/{} ~/{}"
