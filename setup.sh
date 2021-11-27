@@ -47,11 +47,11 @@ popd
 
 
 # Install GEF
-wget https://raw.githubusercontent.com/hugsy/gef/dev/gef.py -O ~/.gdbinit-gef.py
+wget -q https://raw.githubusercontent.com/hugsy/gef/dev/gef.py -O ~/.gdbinit-gef.py
 
 # Install Vim solarized theme
 mkdir -p ~/.vim/colors
-wget https://raw.githubusercontent.com/altercation/solarized/master/vim-colors-solarized/colors/solarized.vim -O ~/.vim/colors/solarized.vim
+wget -q https://raw.githubusercontent.com/altercation/solarized/master/vim-colors-solarized/colors/solarized.vim -O ~/.vim/colors/solarized.vim
 
 # Install virtualenvwrapper
 pip install virtualenvwrapper
