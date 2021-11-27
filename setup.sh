@@ -24,17 +24,15 @@ sudo apt install -y gdb htop python3 python3-pip tmux vim virtualenv xclip zsh w
 # Link all configs
 pushd home
 
-# Remove all initialized submodules
-failed_submodules=$(git submodule deinit . 2>&1)
-if [[ $failed_submodules == *"could not create empty submodule directory"*  ]]; then
-	echo "git submodule deinit failed"
-	exit
-fi
-
 # Link config files
-find . -type f -printf '%P\n' | xargs -I {} sh -c 'mkdir -p $(dirname ~/{}); ln -sf ${PWD}/{} ~/{}'
+for config_file in $(git ls-tree -r --name-only main .); do
+	if [[ -f $config_file ]]; then
+		mkdir -p $(dirname ~/$config_file)
+		ln -sf ${PWD}/$config_file ~/$config_file
+	fi
+done
 
-# Link submodules
+# Symlink submodules
 git submodule status -- . | awk '{ print $2  }' | xargs -I {} sh -c "rm -rf ~/{}; ln -sf ${PWD}/{} ~/{}"
 
 # Update submodules
