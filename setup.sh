@@ -48,5 +48,11 @@ wget -q https://raw.githubusercontent.com/hugsy/gef/dev/gef.py -O ~/.gdbinit-gef
 mkdir -p ~/.vim/colors
 wget -q https://raw.githubusercontent.com/altercation/solarized/master/vim-colors-solarized/colors/solarized.vim -O ~/.vim/colors/solarized.vim
 
+# Install vim-plug
+#TODO
+
+# Compile YouCompleteMe
+#TODO
+
 # Install virtualenvwrapper
-pip install virtualenvwrapper
+pip3 install virtualenvwrapper
