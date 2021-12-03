@@ -1,8 +1,7 @@
 " This is just an initial stripped-down version of the actual vimrc
 " TODO: update this
 
-set nocompatible
-filetype off
+source ~/.vim/plugins.vim
 
 " Highlighted search
 set hlsearch
@@ -10,10 +9,7 @@ set hlsearch
 " Tabs
 set list
 set listchars=tab:\|\ 
-set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
-
-" Enable syntax
-syntax on
+"set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 
 " Corsorline/-column and linenumbers
 set relativenumber
@@ -39,6 +35,9 @@ set exrc
 " Solarized colortheme
 let g:solarized_termtrans=1
 colorscheme solarized
+
+" YCM disable preview in separate window
+set completeopt-=preview
 
 " Custom colors
 hi TabLineSel term=bold cterm=bold ctermfg=white ctermbg=0

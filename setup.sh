@@ -5,7 +5,7 @@ set -e
 
 
 # Clone repository if necessary
-sudo apt install git
+sudo apt install -y git
 
 if [[ -z ${BASH_SOURCE}  ]]; then
 	# We need to clone the repository
@@ -18,7 +18,7 @@ fi
 
 
 # Install dependencies
-sudo apt install -y gdb htop python3 python3-pip tmux vim virtualenv xclip zsh wget
+sudo apt install -y curl gdb htop python3 python3-pip tmux vim virtualenv xclip zsh wget
 
 
 # Link all configs
@@ -44,15 +44,26 @@ popd
 # Install GEF
 wget -q https://raw.githubusercontent.com/hugsy/gef/dev/gef.py -O ~/.gdbinit-gef.py
 
+
 # Install Vim solarized theme
 mkdir -p ~/.vim/colors
 wget -q https://raw.githubusercontent.com/altercation/solarized/master/vim-colors-solarized/colors/solarized.vim -O ~/.vim/colors/solarized.vim
 
-# Install vim-plug
-#TODO
-
-# Compile YouCompleteMe
-#TODO
 
 # Install virtualenvwrapper
 pip3 install virtualenvwrapper
+
+
+# Set zsh as default shell
+sudo chsh -s /usr/bin/zsh $USERNAME
+
+
+# Print hint for YouCompleteMe
+cat << EOF
+
+Remember to compile the YouCompleteMe binary:
+    apt install build-essential cmake vim-nox python3-dev
+    apt install mono-complete golang nodejs default-jdk npm
+    cd ~/.vim/plugged/YouCompleteMe
+    python3 install.py --all
+EOF
