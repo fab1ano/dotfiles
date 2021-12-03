@@ -9,7 +9,7 @@ set hlsearch
 " Tabs
 set list
 set listchars=tab:\|\ 
-"set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+set tabstop=4 shiftwidth=4
 
 " Corsorline/-column and linenumbers
 set relativenumber
