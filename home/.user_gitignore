@@ -23,3 +23,9 @@ Gemfile.lock
 # JabRef
 *.bib.bak
 *.bib.sav
+
+# YouCompleteMe
+.ycm_extra_conf.py
+
+# LibreOffice
+.~lock.*#
