@@ -46,6 +46,9 @@ hi TabLineFill term=none cterm=none ctermfg=gray ctermbg=0
 
 hi SpecialKey ctermbg=none
 
+" Fix current line number
+hi CursorLineNR ctermbg=lightgrey cterm=None
+
 " Hide EndOfBuffer (tilde)
 hi EndOfBuffer ctermfg=0 ctermbg=none
 
