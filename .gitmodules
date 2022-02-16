@@ -10,3 +10,6 @@
 [submodule "home/.zsh/hist"]
 	path = home/.zsh/hist
 	url = https://github.com/marlonrichert/zsh-hist.git
+[submodule "home/.zsh/zsh-lazyload"]
+	path = home/.zsh/zsh-lazyload
+	url = git@github.com:qoomon/zsh-lazyload.git

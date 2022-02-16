@@ -41,14 +41,15 @@ transfer() {
 }
 alias transfer=transfer
 
-# virtualenvwrapper
-source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
-
 # Plugins
 source ~/.zsh/autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.zsh/history-substring-search/zsh-history-substring-search.zsh
 source ~/.zsh/hist/zsh-hist.plugin.zsh
+source ~/.zsh/zsh-lazyload/zsh-lazyload.zsh
+
+# virtualenvwrapper
+lazyload workon -- "source /usr/share/virtualenvwrapper/virtualenvwrapper.sh"
 
 # Other configs
 source ~/.zsh/autocompletion.zsh
@@ -66,5 +67,5 @@ bindkey '^[r' get-line
 # Do not kill background jobs when closing the terminal
 setopt NO_HUP
 
-# loading autocompletion
-autoload -Uz compinit && compinit
+# Load autocompletion
+autoload -Uz compinit -C && compinit -C
