@@ -15,6 +15,7 @@ alias z="zathura"
 alias d="docker"
 alias s="ssh"
 alias psgr="ps aux | grep"
+alias gdb="gdb -q"
 
 alias gr="grep"
 alias rg="grep -rnI . -e"
