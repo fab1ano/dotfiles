@@ -1,5 +1,4 @@
 " This is just an initial stripped-down version of the actual vimrc
-" TODO: update this
 
 source ~/.vim/plugins.vim
 
@@ -31,6 +30,9 @@ nnoremap <leader>O  :tabe<CR>:Files<CR>
 
 " Enable project specific config files
 set exrc
+
+" Set mouse to GUI mode
+set mouse=a
 
 " Solarized colortheme
 let g:solarized_termtrans=1
