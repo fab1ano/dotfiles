@@ -49,7 +49,7 @@ source ~/.zsh/hist/zsh-hist.plugin.zsh
 source ~/.zsh/zsh-lazyload/zsh-lazyload.zsh
 
 # virtualenvwrapper
-lazyload workon -- "source /usr/share/virtualenvwrapper/virtualenvwrapper.sh"
+lazyload workon mkvirtualenv rmvirtualenv -- "source /usr/share/virtualenvwrapper/virtualenvwrapper.sh"
 
 # Other configs
 source ~/.zsh/autocompletion.zsh
