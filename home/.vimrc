@@ -31,6 +31,9 @@ nnoremap <leader>O  :tabe<CR>:Files<CR>
 " Enable project specific config files
 set exrc
 
+" Allow more than 10 tabs to be open
+set tabpagemax=20
+
 " Set mouse to GUI mode
 set mouse=a
 
