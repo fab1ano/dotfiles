@@ -29,3 +29,6 @@ Gemfile.lock
 
 # LibreOffice
 .~lock.*#
+
+# ctags
+tags
