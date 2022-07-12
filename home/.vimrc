@@ -44,6 +44,9 @@ colorscheme solarized
 " YCM disable preview in separate window
 set completeopt-=preview
 
+" Keep clip board on exit
+autocmd VimLeave * call system("xsel -ib", getreg('+'))
+
 " Custom colors
 hi TabLineSel term=bold cterm=bold ctermfg=white ctermbg=0
 hi TabLine term=none cterm=none ctermfg=gray ctermbg=0
