@@ -25,8 +25,8 @@ set wildmenu
 set modeline
 
 " Open files
-nnoremap <leader>o  :Files<CR>
-nnoremap <leader>O  :tabe<CR>:Files<CR>
+nnoremap <C-n>  :Files<CR>
+nnoremap <C-p>  :tabe<CR>:Files<CR>
 
 " Enable project specific config files
 set exrc
