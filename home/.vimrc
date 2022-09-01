@@ -31,6 +31,9 @@ nnoremap <C-p>  :tabe<CR>:Files<CR>
 " Enable project specific config files
 set exrc
 
+" Enable filetype plugin
+filetype plugin indent on
+
 " Allow more than 10 tabs to be open
 set tabpagemax=20
 
