@@ -4,6 +4,10 @@
 set -e
 
 
+# Update package information
+sudo apt update
+
+
 # Clone repository if necessary
 sudo apt install -y git
 
