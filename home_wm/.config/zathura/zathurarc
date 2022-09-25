@@ -1,0 +1,10 @@
+set default-bg "#f5f6f7"
+set inputbar-bg "#2f343f"
+#set notification-bg "#2f343f"
+#set tabbar-bg "#2f343f"
+set statusbar-bg "#2f343f"
+
+set first-page-column 0
+set pages-per-row 2
+
+set guioptions sv
