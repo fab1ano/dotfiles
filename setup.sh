@@ -21,8 +21,12 @@ else
 fi
 
 
-# Install dependencies
-sudo apt install -y curl gdb htop python3 python3-pip tmux vim virtualenv xclip zsh wget
+# Install setup dependencies
+sudo apt install -y python3 python3-pip virtualenv zsh
+
+
+# Install packages
+sudo apt install -y curl gdb htop tmux tree vim xclip wget
 
 
 # Link all configs
