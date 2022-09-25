@@ -18,6 +18,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf'
 Plug 'tpope/vim-eunuch'
-Plug 'ycm-core/YouCompleteMe'
+"Plug 'ycm-core/YouCompleteMe'
 
 call plug#end()
