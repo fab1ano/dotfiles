@@ -77,9 +77,10 @@ if [[ -n "$install_wm" ]]; then
   # Install i3wm
   /usr/lib/apt/apt-helper download-file https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2022.02.17_all.deb keyring.deb SHA256:52053550c4ecb4e97c48900c61b2df4ec50728249d054190e8a0925addb12fc6
   sudo dpkg -i ./keyring.deb
+  rm ./keyring.deb
   echo "deb http://debian.sur5r.net/i3/ $(grep '^DISTRIB_CODENAME=' /etc/lsb-release | cut -f2 -d=) universe" | sudo tee /etc/apt/sources.list.d/sur5r-i3.list >/dev/null
   sudo apt update
-  sudo apt install -y autorandr brightnessctl feh i3 i3lock i3status inputplug scrot terminator xdotool
+  sudo apt install -y arc-theme autorandr brightnessctl feh fonts-font-awesome i3 i3lock i3status inputplug scrot terminator vim-gtk3 xdotool
   # Likely also: dunst
 
   # Link window manager config files
@@ -92,4 +93,5 @@ if [[ -n "$install_wm" ]]; then
   done
   popd
 
+  echo "Remember to set the theme and font with 'lxappearance' (Arc and System San Francisco Display)"
 fi
