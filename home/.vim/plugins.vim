@@ -20,4 +20,6 @@ Plug 'junegunn/fzf'
 Plug 'tpope/vim-eunuch'
 "Plug 'ycm-core/YouCompleteMe'
 
+Plug 'farmergreg/vim-lastplace'
+
 call plug#end()
