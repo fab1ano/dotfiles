@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -e
+
+usage() {
+	echo "Usage: $0 {on|off}"
+	exit
+}
+
+cmd=$1
+
+: =${cmd:="on"}
+
+if [ "$cmd" = "on" ]; then
+	redshift -O 3800K -P
+elif [ "$cmd" = "off" ]; then
+	redshift -O 5500K -P
+else
+	usage
+fi
