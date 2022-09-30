@@ -32,7 +32,7 @@ sudo apt install -y python3 python3-pip virtualenv zsh
 
 
 # Install packages
-sudo apt install -y curl gdb htop tmux tree vim xclip wget
+sudo apt install -y curl gdb htop tmux tree vim virtualenvwrapper wget xclip
 
 
 # Link all configs
@@ -62,10 +62,6 @@ wget -q https://raw.githubusercontent.com/hugsy/gef/dev/gef.py -O ~/.gdbinit-gef
 # Install Vim solarized theme
 mkdir -p ~/.vim/colors
 wget -q https://raw.githubusercontent.com/altercation/solarized/master/vim-colors-solarized/colors/solarized.vim -O ~/.vim/colors/solarized.vim
-
-
-# Install virtualenvwrapper
-pip3 install virtualenvwrapper
 
 
 # Set zsh as default shell
