@@ -187,21 +187,14 @@ exec --no-startup-id ~/.screenlayout/default.sh
 # Swap alt and windows keys
 exec setxkbmap -option altwin:swap_lalt_lwin
 
-# Pulse Audio controls
-#bindsym XF86AudioRaiseVolume exec --no-startup-id pavolume.sh --up
-#bindsym XF86AudioLowerVolume exec --no-startup-id pavolume.sh --down
-#bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q set Master 2dB+ unmute
-#bindsym XF86AudioLowerVolume exec --no-startup-id amixer -q set Master 2dB- unmute
-#bindsym XF86AudioMute exec --no-startup-id amixer -D pulse set Master Playback Switch toggle
+# Audio controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q set Master 2dB+ unmute
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -q set Master 2dB- unmute
+bindsym XF86AudioMute exec --no-startup-id amixer -D pulse set Master Playback Switch toggle
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl s +10%
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl s 10%-
-
-# Media player controls
-#bindsym XF86AudioPlay exec --no-startup-id rhythmbox-client --play-pause
-#bindsym XF86AudioNext exec --no-startup-id playerctl next
-#bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 
 # Move workspace to next monitor
 bindsym $mod+Shift+c move workspace to output down
