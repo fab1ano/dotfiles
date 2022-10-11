@@ -56,6 +56,10 @@ source ~/.zsh/autocompletion.zsh
 source ~/.zsh/prompt.zsh
 source ~/.zsh/aliases.zsh
 
+if [[ -f ~/.zshrc_local ]]; then
+  source ~/.zshrc_local
+fi
+
 # Substring search
 bindkey '^[OA' history-substring-search-up
 bindkey '^[OB' history-substring-search-down
