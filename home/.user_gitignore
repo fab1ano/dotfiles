@@ -23,6 +23,7 @@ Gemfile.lock
 # JabRef
 *.bib.bak
 *.bib.sav
+*.bib.sav.tmp
 
 # YouCompleteMe
 .ycm_extra_conf.py
