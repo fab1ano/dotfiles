@@ -33,7 +33,7 @@ case "$TERM" in
   ;;
 esac
 
-if [[ $USER == root ]]; then
+if [[ $(whoami) == root ]]; then
     post_prompt="%{$fg_bold[$root_color]%}%#%{$reset_color%}"
 else
     post_prompt="%{$fg_bold[$user_color]%}»%{$reset_color%}"
