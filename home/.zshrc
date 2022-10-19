@@ -35,12 +35,6 @@ insert_sudo () { zle beginning-of-line; zle -U "sudo " }
 zle -N insert-sudo insert_sudo
 bindkey "^[s" insert-sudo
 
-# transfer.sh
-transfer() {
-    curl --progress-bar --upload-file "$1" https://transfer.sh/$(basename $1) | tee /dev/null;
-}
-alias transfer=transfer
-
 # Plugins
 source ~/.zsh/autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/syntax-highlighting/zsh-syntax-highlighting.zsh

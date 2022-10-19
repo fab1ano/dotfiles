@@ -1,4 +1,4 @@
-# Shortcuts
+# Other shortcuts
 if [ -x /usr/bin/dircolors ]; then
 	test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
 	alias ls='ls --color=auto'
@@ -45,9 +45,17 @@ alias -6="cd ../../../../../.."
 alias -7="cd ../../../../../../.."
 alias -8="cd ../../../../../../../.."
 
+alias ipy=ipython3
+
 alias ash="adb shell"
 alias wad="watch -n 1 adb devices"
 
 alias eusb="udisksctl power-off -b"
 
+# Create dir and change to it
 cdm() { mkdir -p $1 && cd $1; }
+
+# transfer.sh
+transfer() {
+    curl --progress-bar --upload-file "$1" https://transfer.sh/$(basename $1) | tee /dev/null;
+}
