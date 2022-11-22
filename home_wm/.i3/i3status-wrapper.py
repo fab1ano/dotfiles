@@ -29,6 +29,7 @@ import json
 import psutil
 import subprocess
 
+
 def get_cpu_usage():
     """Get current cpu usage per core."""
     cpu_usage = psutil.cpu_percent(percpu=True)
@@ -37,36 +38,61 @@ def get_cpu_usage():
     avg = sum(cpu_usage)
     cpu_usage = map(lambda x: chr(0x2580+x), cpu_usage)
 
-    color = "#FFFFFF"
+    color = '#FFFFFF'
     if avg >= 4 * num_cpu:
-        color = "#FFFF00"  # yellow
+        color = '#FFFF00'  # yellow
     if avg >= 6 * num_cpu:
-        color = "#FF0000"  # red
+        color = '#FF0000'  # red
 
     return '\u200a'.join(cpu_usage), color
 
+
 def get_vm_status():
     """Get current vm status."""
-    status_str = ""
-    color = "#FFFFFF"
+    status_str = ''
+    color = '#FFFFFF'
 
-    try: 
+    try:
         vm_usage = subprocess.check_output(['virsh', 'list']).decode('utf-8').split('\n')
         for i in range(2, len(vm_usage)-2):
             vm_name = vm_usage[i]
             vm_name = vm_name[6:].split(' ')[0]
             status_str += vm_name + ' '
     except:
-        status_str = "vm error"
+        status_str = 'vm error'
 
     status_str = status_str.strip()
 
     return status_str, color
 
+
+def get_clockify_status():
+    """Get current clockify status."""
+    status_str = ''
+    color = '#FFFFFF'
+
+    try:
+        time_entry = subprocess.check_output(['clockify-cli', 'show', 'current']).decode('utf-8').split('\n')
+        if len(time_entry) >= 5:
+            line = time_entry[3].split('|')
+            start = line[2].strip().split(' ')[1][:-3]
+            project = line[5].strip()
+
+            status_str += f'{project} ({start})'
+
+    except:
+        status_str = 'clockify error'
+
+    status_str = status_str.strip()
+
+    return status_str, color
+
+
 def print_line(message):
     """ Non-buffered printing to stdout. """
     sys.stdout.write(message + '\n')
     sys.stdout.flush()
+
 
 def read_line():
     """ Interrupted respecting reader for stdin. """
@@ -101,6 +127,8 @@ if __name__ == '__main__':
         j.insert(0, {'color' : cpu_color, 'full_text' : cpu_text, 'name' : 'cpu_usage'})
         vm_text, vm_color = get_vm_status()
         j.insert(0, {'color' : vm_color, 'full_text' : vm_text, 'name' : 'vm_status'})
+        clockify_text, vm_color = get_clockify_status()
+        j.insert(0, {'color' : vm_color, 'full_text' : clockify_text, 'name' : 'clockify_status'})
 
         # and echo back new encoded json
         print_line(prefix+json.dumps(j))
