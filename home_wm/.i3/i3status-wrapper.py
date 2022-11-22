@@ -53,7 +53,8 @@ def get_vm_status():
     color = '#FFFFFF'
 
     try:
-        vm_usage = subprocess.check_output(['virsh', 'list']).decode('utf-8').split('\n')
+        vm_usage = subprocess.check_output(['virsh',
+            'list']).decode('utf-8').split('\n')
         for i in range(2, len(vm_usage)-2):
             vm_name = vm_usage[i]
             vm_name = vm_name[6:].split(' ')[0]
@@ -72,7 +73,8 @@ def get_clockify_status():
     color = '#FFFFFF'
 
     try:
-        time_entry = subprocess.check_output(['clockify-cli', 'show', 'current']).decode('utf-8').split('\n')
+        time_entry = subprocess.run(['clockify-cli', 'show', 'current'],
+                stdout=subprocess.PIPE).stdout.decode('utf-8').split('\n')
         if len(time_entry) >= 5:
             line = time_entry[3].split('|')
             start = line[2].strip().split(' ')[1][:-3]
