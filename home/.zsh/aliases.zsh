@@ -10,7 +10,7 @@ fi
 
 alias l="ls -lh"
 alias m="make"
-alias v="vim -p"
+alias v="nvim -p"
 alias z="zathura"
 alias d="docker"
 alias s="ssh"

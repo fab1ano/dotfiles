@@ -14,7 +14,7 @@ setopt SHARE_HISTORY
 bindkey -v
 
 # Default editor
-export EDITOR="vim"
+export EDITOR="nvim"
 
 # Edit line in vim
 autoload edit-command-line

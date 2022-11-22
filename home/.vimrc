@@ -2,6 +2,11 @@
 
 source ~/.vim/plugins.vim
 
+if has('nvim')
+  source ~/.vim/neo.vim
+endif
+
+
 " Highlighted search
 set hlsearch
 
@@ -42,7 +47,19 @@ set mouse=a
 
 " Solarized colortheme
 let g:solarized_termtrans=1
-colorscheme solarized
+if has('nvim')
+  set termguicolors
+  set background=light
+  set t_8f=[38;2;%lu;%lu;%lum
+  set t_8b=[48;2;%lu;%lu;%lum
+  let g:neosolarized_bold = 1
+  let g:neosolarized_italic = 1
+"  let g:neosolarized_visibility = "low"
+  let g:neosolarized_termtrans = 1
+  colorscheme NeoSolarized
+else
+  colorscheme solarized
+endif
 
 " YCM disable preview in separate window
 set completeopt-=preview

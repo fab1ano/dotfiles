@@ -12,14 +12,21 @@ call plug#begin('~/.vim/plugged')
 "Plug 'git://git.wincent.com/command-t.git'
 "Plug 'jeaye/color_coded'
 "Plug 'vim-syntastic/syntastic'
-
 "Plug 'jiangmiao/auto-pairs'
 "Plug 'tpope/vim-surround'
+
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf'
 Plug 'tpope/vim-eunuch'
+
 "Plug 'ycm-core/YouCompleteMe'
 
 Plug 'farmergreg/vim-lastplace'
+
+if has('nvim')
+  Plug 'overcache/NeoSolarized'
+
+  Plug 'github/copilot.vim'
+endif
 
 call plug#end()
