@@ -4,6 +4,16 @@
 set -e
 
 
+function link_configs() {
+  for config_file in $(git ls-tree -r --name-only main .); do
+    if [[ -f $config_file ]]; then
+      mkdir -p $(dirname ~/$config_file)
+      ln -sf ${PWD}/$config_file ~/$config_file
+    fi
+  done
+}
+
+
 # Check if X-Server is running
 if command -v xset &> /dev/null && xset q &> /dev/null; then
     install_wm=1
@@ -18,12 +28,12 @@ sudo apt update
 sudo apt install -y git
 
 if [[ -z ${BASH_SOURCE}  ]]; then
-	# We need to clone the repository
-	git clone https://github.com/fab1ano/dotfiles .dotfiles
-	cd .dotfiles
+  # We need to clone the repository
+  git clone https://github.com/fab1ano/dotfiles .dotfiles
+  cd .dotfiles
 else
-	# We assume that the repository is already cloned
-	cd "$(dirname "${BASH_SOURCE}")";
+  # We assume that the repository is already cloned
+  cd "$(dirname "${BASH_SOURCE}")";
 fi
 
 
@@ -39,12 +49,7 @@ sudo apt install -y curl gdb htop tmux tree vim virtualenvwrapper wget xclip
 pushd home
 
 # Link config files
-for config_file in $(git ls-tree -r --name-only main .); do
-	if [[ -f $config_file ]]; then
-		mkdir -p $(dirname ~/$config_file)
-		ln -sf ${PWD}/$config_file ~/$config_file
-	fi
-done
+link_configs
 
 # Symlink submodules
 git submodule status -- . | awk '{ print $2  }' | xargs -I {} sh -c "rm -rf ~/{}; ln -sf ${PWD}/{} ~/{}"
@@ -81,12 +86,7 @@ if [[ -n "$install_wm" ]]; then
 
   # Link window manager config files
   pushd home_wm
-  for config_file in $(git ls-tree -r --name-only main .); do
-      if [[ -f $config_file ]]; then
-          mkdir -p $(dirname ~/$config_file)
-          ln -sf ${PWD}/$config_file ~/$config_file
-      fi
-  done
+  link_configs
   popd
 
   echo "Remember to set the theme and font with 'lxappearance' (Arc and System San Francisco Display)"
