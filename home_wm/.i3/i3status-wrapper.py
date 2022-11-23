@@ -77,10 +77,10 @@ def get_clockify_status():
                 stdout=subprocess.PIPE).stdout.decode('utf-8').split('\n')
         if len(time_entry) >= 5:
             line = time_entry[3].split('|')
-            start = line[2].strip().split(' ')[1][:-3]
+            duration = line[4].strip()[:-3]
             project = line[5].strip()
 
-            status_str += f'{project} ({start})'
+            status_str += f'{project} ({duration})'
 
     except:
         status_str = 'clockify error'
