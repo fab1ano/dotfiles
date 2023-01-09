@@ -252,5 +252,5 @@ for_window [title="^Orage$"] floating enable
 exec --no-startup-id inputplug -c ~/.i3/keyboard_update.sh
 
 # Enable scratchpad for JabRef
-bindsym $mod+Shift+minus [class="^org.jabref.gui.JabRefMain$"] move scratchpad
-bindsym $mod+minus [class="^org.jabref.gui.JabRefMain$"] scratchpad show; floating disable
+bindsym $mod+Shift+minus [class="^org.jabref.gui.MainApplication$"] move scratchpad
+bindsym $mod+minus [class="^org.jabref.gui.MainApplication$"] scratchpad show; floating disable
