@@ -12,9 +12,9 @@ cmd=$1
 : =${cmd:="on"}
 
 if [ "$cmd" = "on" ]; then
-	redshift -O 3800K -P
+	redshift -m randr -O 3800K -P
 elif [ "$cmd" = "off" ]; then
-	redshift -O 5500K -P
+	redshift -m randr -O 5500K -P
 else
 	usage
 fi
