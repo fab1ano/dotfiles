@@ -1,6 +1,9 @@
 # Idea
 .idea
 
+# VS Code
+**/.vscode/settings.json
+
 # Vim
 .*.swp
 .*.swo
