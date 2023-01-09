@@ -36,6 +36,9 @@ alias t="tmux"
 alias tn="tmux new-session -s"
 alias ta="tmux attach -t"
 
+alias cin="clockify-cli in"
+alias cout="clockify-cli out"
+
 alias ..="cd .."
 alias -2="cd ../.."
 alias -3="cd ../../.."
