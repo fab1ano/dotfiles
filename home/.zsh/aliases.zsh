@@ -8,6 +8,7 @@ if [ -x /usr/bin/dircolors ]; then
 	alias egrep='egrep --color=auto'
 fi
 
+alias c="xclip -sel clip"
 alias l="ls -lh"
 alias m="make"
 alias v="nvim -p"
