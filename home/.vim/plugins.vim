@@ -23,6 +23,8 @@ Plug 'tpope/vim-eunuch'
 
 Plug 'farmergreg/vim-lastplace'
 
+Plug 'thesis/vim-solidity', {'branch': 'main' }
+
 if has('nvim')
   Plug 'overcache/NeoSolarized'
 
