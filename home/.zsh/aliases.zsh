@@ -52,6 +52,7 @@ alias -8="cd ../../../../../../../.."
 alias ipy=ipython3
 
 alias ash="adb shell"
+alias ashi="expect -c 'spawn adb shell; expect \"\$\" { sleep 0.1; send \"alias l='\''ls -lh'\''\n\" }; interact'"
 alias wad="watch -n 1 adb devices"
 
 alias eusb="udisksctl power-off -b"
