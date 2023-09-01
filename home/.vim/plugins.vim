@@ -21,6 +21,12 @@ Plug 'tpope/vim-eunuch'
 
 "Plug 'ycm-core/YouCompleteMe'
 
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+Plug 'udalov/kotlin-vim'
+
+
 Plug 'farmergreg/vim-lastplace'
 
 Plug 'thesis/vim-solidity', {'branch': 'main' }
