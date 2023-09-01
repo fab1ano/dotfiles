@@ -42,7 +42,7 @@ sudo apt install -y python3 python3-pip virtualenv zsh
 
 
 # Install packages
-sudo apt install -y curl gdb htop tmux tree vim virtualenvwrapper wget xclip
+sudo apt install -y curl gdb htop neovim tmux tree vim virtualenvwrapper wget xclip
 
 
 # Link all configs
