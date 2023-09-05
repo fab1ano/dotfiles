@@ -73,7 +73,7 @@ def get_clockify_status():
     color = '#FFFFFF'
 
     try:
-        time_entry = subprocess.run(['clockify-cli', 'show', 'current'],
+        time_entry = subprocess.run(['timeout', '5', 'clockify-cli', 'show', 'current'],
                 stdout=subprocess.PIPE).stdout.decode('utf-8').split('\n')
         if len(time_entry) >= 5:
             line = time_entry[3].split('|')
