@@ -1,0 +1,20 @@
+#!/bin/sh
+
+set -e
+
+usage() {
+	echo "Usage: $0 {on|off}"
+	exit
+}
+
+if [ "$1" = "on" ]
+then
+	ln -fs ${HOME}/.config/dunst/dunstrc_default ${HOME}/.config/dunst/dunstrc
+elif [ "$1" = "off" ]
+then
+	ln -fs ${HOME}/.config/dunst/dunstrc_crit ${HOME}/.config/dunst/dunstrc
+else
+	usage
+fi
+
+systemctl --user restart dunst.service
