@@ -61,7 +61,7 @@ popd
 
 
 # Install GEF
-wget -q https://raw.githubusercontent.com/hugsy/gef/dev/gef.py -O ~/.gdbinit-gef.py
+wget -q https://raw.githubusercontent.com/hugsy/gef/main/gef.py -O ~/.gdbinit-gef.py
 
 
 # Install Vim solarized theme
