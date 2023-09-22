@@ -37,8 +37,9 @@ alias t="tmux"
 alias tn="tmux new-session -s"
 alias ta="tmux attach -t"
 
-alias cin="clockify-cli in"
-alias cout="clockify-cli out"
+# Replaced with script such that it is available via dmenu
+#alias cin="clockify-cli in"
+#alias cout="clockify-cli out"
 
 alias ..="cd .."
 alias -2="cd ../.."
@@ -53,6 +54,7 @@ alias ipy=ipython3
 
 alias ash="adb shell"
 alias ashi="expect -c 'spawn adb shell; expect \":\" { sleep 0.1; send \"alias l='\''ls -lh'\''\n\" }; interact'"
+alias lc="adb logcat"
 alias wad="watch -n 1 adb devices"
 
 alias eusb="udisksctl power-off -b"
