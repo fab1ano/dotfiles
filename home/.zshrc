@@ -49,6 +49,7 @@ lazyload workon mkvirtualenv rmvirtualenv -- "source /usr/share/virtualenvwrappe
 source ~/.zsh/autocompletion.zsh
 source ~/.zsh/prompt.zsh
 source ~/.zsh/aliases.zsh
+source ~/.zsh/ssh-agent.zsh
 
 if [[ -f ~/.zshrc_local ]]; then
   source ~/.zshrc_local
