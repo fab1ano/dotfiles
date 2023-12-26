@@ -1,0 +1,45 @@
+diff --git a/qutebrowser/commands/command.py b/qutebrowser/commands/command.py
+index eee5b7cde..f40f63002 100644
+--- a/qutebrowser/commands/command.py
++++ b/qutebrowser/commands/command.py
+@@ -524,9 +524,14 @@ class Command:
+             args: Arguments to the command.
+             count: Command repetition count.
+         """
++        disable_dbgout = self.name == "insert-text"
++
+         dbgout = ["command called:", self.name]
+         if args:
+-            dbgout.append(str(args))
++            if disable_dbgout:
++                dbgout.append("<redacted>")
++            else:
++                dbgout.append(str(args))
+         elif args is None:
+             args = []
+ 
+@@ -546,8 +551,9 @@ class Command:
+         self._count = count
+         self._check_prerequisites(win_id)
+         posargs, kwargs = self._get_call_args(win_id)
+-        log.commands.debug('Calling {}'.format(
+-            debug_utils.format_call(self.handler, posargs, kwargs)))
++        x = debug_utils.format_call(self.handler, posargs, kwargs)
++        if not disable_dbgout:
++            log.commands.debug('Calling {}'.format(x))
+         self.handler(*posargs, **kwargs)
+ 
+     def validate_mode(self, mode):
+diff --git a/qutebrowser/commands/userscripts.py b/qutebrowser/commands/userscripts.py
+index c776324ac..b77c81c79 100644
+--- a/qutebrowser/commands/userscripts.py
++++ b/qutebrowser/commands/userscripts.py
+@@ -438,7 +438,7 @@ def run_async(tab, cmd, *args, win_id, env, verbose=False,
+ 
+     runner.got_cmd.connect(
+         lambda cmd:
+-        log.commands.debug("Got userscript command: {}".format(cmd)))
++        log.commands.debug("Got userscript command."))
+     runner.got_cmd.connect(commandrunner.run_safely)
+ 
+     env['QUTE_USER_AGENT'] = websettings.user_agent()
