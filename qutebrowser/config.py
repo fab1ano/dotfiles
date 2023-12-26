@@ -29,7 +29,7 @@ bgColorStatus  = bgColor
 textColor      = 'grey'
 textColorSel   = 'white'
 
-# Another good set of colors woud be
+# Another good set of colors would be
 #bgColor        = '#ffffff'
 #bgColor2       = '#f0f0f0'
 #bgColorStatus  = '#2f343f'
