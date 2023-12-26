@@ -4,6 +4,7 @@ function start_ssh_agent() {
 	local lifetime
 
 	echo starting ssh-agent...
+	mkdir -p ~/.ssh
 
 	ssh-agent -s | sed 's/^echo/#echo/' >! $ssh_environment
 	chmod 600 $ssh_environment
