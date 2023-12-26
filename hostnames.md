@@ -6,8 +6,8 @@ Hostnames
 | E560          | `chevelle`              |
 | ThinkBook     | `evoque`                |
 | ThinkPad      | `velar`                 |
-| RPi           | `xc90`, `xc60`          |
-| RPi nano      | `z1`                    |
+| RPi nano      | `homebridge`            |
+| RPi           | `rpi`                   |
 | RPi           |                         |
 | iPad          | `veyron`                |
 | Xiaomi        | `regera`                |
