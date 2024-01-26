@@ -70,7 +70,7 @@ wget -q https://raw.githubusercontent.com/altercation/solarized/master/vim-color
 
 
 # Set zsh as default shell
-sudo chsh -s /usr/bin/zsh $USERNAME
+sudo chsh -s /usr/bin/zsh $USER
 
 
 # Window Manager
