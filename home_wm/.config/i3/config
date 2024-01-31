@@ -109,11 +109,10 @@ assign [instance="messenger"] $ws0
 assign [class="TelegramDesktop"] $ws0
 assign [class="Signal"] $ws0
 assign [instance="outlook"] $ws0
-assign [instance="trello"] $ws0
 assign [instance="slack"] $ws0
 
 # Browsing
-assign [class="Chromium"] $ws9
+assign [class="Chromium" instance="^(?!www.overleaf.com)(?!www.notion.so).*"] $ws9
 assign [class="Firefox"] $ws9
 assign [class="qutebrowser"] $ws9
 assign [class="Tor Browser"] $ws9
@@ -253,6 +252,10 @@ exec --no-startup-id inputplug -c ~/.i3/keyboard_update.sh
 
 # Start blueman
 exec --no-startup-id blueman-applet
+exec --no-startup-id nm-applet
+
+# Start pasystray
+exec --no-startup-id pasystray
 
 # Start pasystray
 exec --no-startup-id pasystray
