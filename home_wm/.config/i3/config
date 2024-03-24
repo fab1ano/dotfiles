@@ -22,7 +22,7 @@ bindsym $mod+shift+Return exec --no-startup-id terminator -p bright
 bindsym $mod+Shift+q kill
 
 # Start dmenu
-bindsym $mod+a exec --no-startup-id dmenu_run -nb "$bg-color" -sb "$urgent-bg-color"
+bindsym $mod+a exec --no-startup-id dmenu_run -fn 'System San Francisco Display-9' -nb "$bg-color" -sb "$urgent-bg-color"
 
 # Change focus
 bindsym $mod+n focus left
