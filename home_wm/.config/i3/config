@@ -56,7 +56,7 @@ bindsym $mod+v split v
 bindsym $mod+Shift+f fullscreen toggle
 
 # Change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
+#bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
@@ -232,6 +232,11 @@ exec_always --no-startup-id xss-lock -n ~/.i3/dim-screen.sh -- i3lock --color \#
 # Screenshots ..
 bindsym --release Print exec --no-startup-id scrot -s
 bindsym --release $mod+Print exec --no-startup-id scrot -s -e 'mv $f /tmp/ && cat /tmp/$f | xclip -selection c -t image/png' `date +%Y-%m-%d_%H:%M:%S`.png
+
+# keepmenu
+bindsym --release $mod+k exec --no-startup-id keepmenu
+bindsym --release $mod+s exec --no-startup-id keepmenu --autotype {USERNAME}
+bindsym --release $mod+b exec --no-startup-id keepmenu --autotype {PASSWORD}
 
 # Disable mouse warping for presentations
 mouse_warping none

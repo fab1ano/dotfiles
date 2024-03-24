@@ -81,7 +81,8 @@ if [[ -n "$install_wm" ]]; then
   rm ./keyring.deb
   echo "deb http://debian.sur5r.net/i3/ $(grep '^DISTRIB_CODENAME=' /etc/lsb-release | cut -f2 -d=) universe" | sudo tee /etc/apt/sources.list.d/sur5r-i3.list >/dev/null
   sudo apt update
-  sudo apt install -y arc-theme autorandr blueman brightnessctl dunst feh fonts-font-awesome i3 i3lock i3status inputplug pasystray scrot terminator vim-gtk3 xdotool
+  sudo apt install -y arc-theme autorandr blueman brightnessctl dunst feh fonts-font-awesome i3 i3lock i3status inputplug pasystray pipx redshift scrot terminator vim-gtk3 xdotool
+  pipx install keepmenu
 
   # Link window manager config files
   pushd home_wm
