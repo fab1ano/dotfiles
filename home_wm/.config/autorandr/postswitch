@@ -1,5 +1,5 @@
 #!/bin/sh
 
-sleep 2
+sleep 1
 
 feh --bg-fill ~/.wallpaper.jpg
