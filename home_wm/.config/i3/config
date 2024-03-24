@@ -120,7 +120,7 @@ assign [class="Microsoft-edge"] $ws9
 
 # Reload the configuration file
 bindsym $mod+Shift+p reload
-# Restart m3 inplace (preserves your layout/session, can be used to upgrade i3)
+# Restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+z restart
 
 # Resize window (you can also use the mouse for that)
