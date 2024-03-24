@@ -12,6 +12,9 @@ Useful packages are:
 Fonts are installed to `~/.fonts`.
 
 
+### PCIe Tunneling, Thunderbolt & Dock
+Read about thunderbolt security levels [here](https://www.kernel.org/doc/html/latest/admin-guide/thunderbolt.html).
+
 ### Optional configuration for autorandr
 Config in file `~/.config/autorandr/settings.ini`:
 ```
