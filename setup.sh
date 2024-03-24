@@ -75,11 +75,14 @@ sudo chsh -s /usr/bin/zsh $USER
 
 # Window Manager
 if [[ -n "$install_wm" ]]; then
-  # Install i3wm
-  /usr/lib/apt/apt-helper download-file https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2023.02.18_all.deb keyring.deb SHA256:a511ac5f10cd811f8a4ca44d665f2fa1add7a9f09bef238cdfad8461f5239cc4
-  sudo apt install ./keyring.deb
-  rm ./keyring.deb
-  echo "deb http://debian.sur5r.net/i3/ $(grep '^DISTRIB_CODENAME=' /etc/lsb-release | cut -f2 -d=) universe" | sudo tee /etc/apt/sources.list.d/sur5r-i3.list >/dev/null
+  # If on Ubuntu, add the i3 repository (check lsb_release)
+  if [[ $(lsb_release -is) == "Ubuntu" ]]; then
+    /usr/lib/apt/apt-helper download-file https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2023.02.18_all.deb keyring.deb SHA256:a511ac5f10cd811f8a4ca44d665f2fa1add7a9f09bef238cdfad8461f5239cc4
+    sudo apt install ./keyring.deb
+    rm ./keyring.deb
+    echo "deb http://debian.sur5r.net/i3/ $(grep '^DISTRIB_CODENAME=' /etc/lsb-release | cut -f2 -d=) universe" | sudo tee /etc/apt/sources.list.d/sur5r-i3.list
+  fi
+
   sudo apt update
   sudo apt install -y arc-theme autorandr blueman brightnessctl dunst feh fonts-font-awesome i3 i3lock i3status inputplug pasystray pipx redshift scrot terminator vim-gtk3 xdotool
   pipx install keepmenu
@@ -89,5 +92,6 @@ if [[ -n "$install_wm" ]]; then
   link_configs
   popd
 
-  echo "Remember to set the theme and font with 'lxappearance' (Arc and System San Francisco Display)"
+  echo "Remember to set the theme and font with 'lxappearance' (Arc and System San Francisco Display)."
+  echo "And if on Debian, you want to get i3 from Debian testing."
 fi
