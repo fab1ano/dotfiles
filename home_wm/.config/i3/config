@@ -252,6 +252,9 @@ for_window [title="^pdfpc - present"] border none floating enable
 # Orage (calender)
 for_window [title="^Orage$"] floating enable
 
+# Zoom Pop Ups
+for_window [title="^zoom$"] floating enable
+
 # Watch for new keyboards
 exec --no-startup-id inputplug -c ~/.i3/keyboard_update.sh
 
