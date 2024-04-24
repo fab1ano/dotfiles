@@ -234,7 +234,7 @@ bindsym --release Print exec --no-startup-id scrot -s
 bindsym --release $mod+Print exec --no-startup-id scrot -s -e 'mv $f /tmp/ && cat /tmp/$f | xclip -selection c -t image/png' `date +%Y-%m-%d_%H:%M:%S`.png
 
 # keepmenu
-bindsym --release $mod+k exec --no-startup-id keepmenu
+bindsym --release $mod+k exec --no-startup-id keepmenu --autotype {USERNAME}{TAB}{PASSWORD}
 bindsym --release $mod+s exec --no-startup-id keepmenu --autotype {USERNAME}
 bindsym --release $mod+b exec --no-startup-id keepmenu --autotype {PASSWORD}
 
