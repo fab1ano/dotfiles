@@ -20,7 +20,9 @@ if [[ $UID -ne 0 ]]; then
 			start_ssh_agent
 		}
 	else
-		start_ssh_agent
+		if [[ -z "$SSH_AUTH_SOCK" ]]; then
+			start_ssh_agent
+		fi
 	fi
 fi
 
