@@ -11,3 +11,4 @@ Hostnames
 | RPi           |                         |
 | iPad          | `veyron`                |
 | Xiaomi        | `regera`                |
+| Pixel         | `panther`               |
