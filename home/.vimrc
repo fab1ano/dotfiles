@@ -44,6 +44,8 @@ set tabpagemax=20
 
 " Set mouse to GUI mode
 set mouse=a
+" Let the terminal handle C-LeftMouse to open links
+noremap <C-LeftMouse> <LeftMouse>
 
 " Solarized colortheme
 let g:solarized_termtrans=1
