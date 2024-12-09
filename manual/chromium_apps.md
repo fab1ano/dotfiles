@@ -24,6 +24,9 @@ if [[ $link == linkhandler://* ]]; then
 	link=${link#linkhandler://}
 fi
 
+# If it starts with http// or https//, add the colon. This is because a legitimate URI cannot contain multiple colons
+link=$(echo $link | sed 's/^http\/\//http:\/\//' | sed 's/^https\/\//https:\/\//')
+
 # Open the link
 open $link
 ```
@@ -58,6 +61,7 @@ function onClick(ev) {
     if (isExternalHref(href)) {
       // Prevent the default link behavior
       ev.preventDefault();
+      ev.stopPropagation();
 
       // Open the link
       window.location.href = "linkhandler://" + href;
@@ -70,7 +74,7 @@ function isExternalHref(href) {
   return href.startsWith("http") && !href.includes(app_url);
 }
 
-document.addEventListener("click", onClick, false)
+document.addEventListener("click", onClick, true)
 ```
 
 5. Profit!
