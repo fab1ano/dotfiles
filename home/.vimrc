@@ -85,3 +85,16 @@ hi EndOfBuffer ctermfg=0 ctermbg=none
 " Line overlength
 highlight OverLength ctermbg=7
 match OverLength /\%81v./
+
+" Configure NoNeckPain
+if has('nvim')
+lua << EOF
+  require("no-neck-pain").setup({
+    width = 180,
+    autocmds = {
+      enableOnVimEnter = true,
+      enableOnTabEnter = true,
+    },
+  })
+EOF
+endif

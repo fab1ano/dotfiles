@@ -8,34 +8,39 @@ endif
 " Install plugins
 call plug#begin('~/.vim/plugged')
 
-"Plug 'tpope/vim-fugitive'
-"Plug 'git://git.wincent.com/command-t.git'
-"Plug 'jeaye/color_coded'
-"Plug 'vim-syntastic/syntastic'
-"Plug 'jiangmiao/auto-pairs'
-"Plug 'tpope/vim-surround'
-
+" Fuzzy file search
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf'
+
+" Shell commands
 Plug 'tpope/vim-eunuch'
+
+" Automatically set shiftwidth and expandtab for files
 Plug 'tpope/vim-sleuth'
 
-"Plug 'ycm-core/YouCompleteMe'
-
+" Status bar
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
+" Kotlin support
 Plug 'udalov/kotlin-vim'
 
-
+" Open files at the last cursor position
 Plug 'farmergreg/vim-lastplace'
 
+" Support for Solidity
 Plug 'thesis/vim-solidity', {'branch': 'main' }
 
+" Some plugins only supported in NeoVim
 if has('nvim')
+  " Solarized theme for NeoVim
   Plug 'overcache/NeoSolarized'
 
+  " Copilot
   Plug 'github/copilot.vim'
+
+  " Centered view
+  Plug 'shortcuts/no-neck-pain.nvim', { 'tag': '*' }
 endif
 
 call plug#end()
