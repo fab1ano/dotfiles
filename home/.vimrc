@@ -17,6 +17,7 @@ set tabstop=4 shiftwidth=4
 
 " Corsorline/-column and linenumbers
 set relativenumber
+set number
 set cursorline
 set cursorcolumn
 
@@ -80,7 +81,7 @@ hi SpecialKey ctermbg=none
 hi CursorLineNR ctermbg=lightgrey cterm=None
 
 " Hide EndOfBuffer (tilde)
-hi EndOfBuffer ctermfg=0 ctermbg=none
+set fillchars+=eob:\ 
 
 " Line overlength
 highlight OverLength ctermbg=7
