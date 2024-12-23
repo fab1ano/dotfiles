@@ -86,15 +86,13 @@ hi EndOfBuffer ctermfg=0 ctermbg=none
 highlight OverLength ctermbg=7
 match OverLength /\%81v./
 
-" Configure NoNeckPain
-if has('nvim')
-lua << EOF
-  require("no-neck-pain").setup({
-    width = 180,
-    autocmds = {
-      enableOnVimEnter = true,
-      enableOnTabEnter = true,
-    },
-  })
-EOF
-endif
+" Load the lua configuration file
+luafile ~/.vim/init.lua
+
+" Mappings for neo-tree
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+nnoremap , :Neotree<CR>
+nnoremap – :Neotree git_status<CR>

@@ -40,7 +40,15 @@ if has('nvim')
   Plug 'github/copilot.vim'
 
   " Centered view
-  Plug 'shortcuts/no-neck-pain.nvim', { 'tag': '*' }
+  Plug 'fab1ano/no-neck-pain.nvim'
+
+  " Neotree
+  Plug 'nvim-neo-tree/neo-tree.nvim'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-tree/nvim-web-devicons'
+  Plug 'MunifTanjim/nui.nvim'
+  Plug '3rd/image.nvim'
+
 endif
 
 call plug#end()
