@@ -68,7 +68,7 @@ endif
 set completeopt-=preview
 
 " Keep clip board on exit
-autocmd VimLeave * call system("xsel -ib", getreg('+'))
+autocmd VimLeave * call system("xclip -in -selection clipboard", getreg('+'))
 
 " Custom colors
 hi TabLineSel term=bold cterm=bold ctermfg=white ctermbg=0
