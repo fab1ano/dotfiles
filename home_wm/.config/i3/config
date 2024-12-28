@@ -268,3 +268,7 @@ exec --no-startup-id pasystray
 # Enable scratchpad for JabRef
 bindsym $mod+Shift+minus [class="^org.jabref.gui.MainApplication$"] move scratchpad
 bindsym $mod+minus [class="^org.jabref.gui.MainApplication$"] scratchpad show; floating disable
+
+# ChatGPT
+for_window [window_role="Terminator-ChatGPT"] floating enable, resize set 600 600, move 300 300
+bindsym $mod+c exec --no-startup-id terminator -r Terminator-ChatGPT -p bright -x chatgpt
