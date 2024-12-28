@@ -49,6 +49,8 @@ if has('nvim')
   Plug 'MunifTanjim/nui.nvim'
   Plug '3rd/image.nvim'
 
+  " LLM integration
+  Plug 'madox2/vim-ai'
 endif
 
 call plug#end()
