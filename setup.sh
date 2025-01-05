@@ -92,6 +92,12 @@ if [[ -n "$install_wm" ]]; then
   link_configs
   popd
 
+  # Update redshift apparmor rules to allow reading the config file
+  if ! grep -q "${PWD}/home_wm/.config/redshift.conf r," /etc/apparmor.d/local/usr.bin.redshift; then
+    echo "${PWD}/home_wm/.config/redshift.conf r," | sudo tee -a /etc/apparmor.d/local/usr.bin.redshift
+    sudo systemctl restart apparmor
+  fi
+
   echo "Remember to set the theme and font with 'lxappearance' (Arc and System San Francisco Display)."
   echo "And if on Debian, you want to get i3 from Debian testing."
 fi
