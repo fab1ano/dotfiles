@@ -3,5 +3,3 @@
 set -e
 
 autorandr -l $@
-
-blue-filter on
