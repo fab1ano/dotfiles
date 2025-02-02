@@ -33,6 +33,8 @@ alias gc="git commit -m"
 alias gca="git commit -a -m"
 alias gcl="git clone"
 
+alias tig="tig --all"
+
 alias t="tmux"
 alias tn="tmux new-session -s"
 alias ta="tmux attach -t"
