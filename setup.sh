@@ -4,6 +4,13 @@
 set -e
 
 
+# Usage: setup.sh [custom_home]
+if [[ $# -eq 1 && -d $1 ]]; then
+  custom_home=1
+  export HOME=$1
+fi
+
+
 function link_configs() {
   for config_file in $(git ls-tree -r --name-only main .); do
     if [[ -f $config_file ]]; then
@@ -69,8 +76,13 @@ mkdir -p ~/.vim/colors
 wget -q https://raw.githubusercontent.com/altercation/solarized/master/vim-colors-solarized/colors/solarized.vim -O ~/.vim/colors/solarized.vim
 
 
-# Set zsh as default shell
-sudo chsh -s /usr/bin/zsh $USER
+# Set zsh as default shell or provide an entry script
+if [ -z ${custom_home} ]; then
+  sudo chsh -s /usr/bin/zsh $USER
+else
+  echo -e "#!/bin/sh\nexport HOME=${HOME}\nexec /usr/bin/zsh" > ${HOME}/activate.sh
+  chmod +x ${HOME}/activate.sh
+fi
 
 
 # Window Manager
