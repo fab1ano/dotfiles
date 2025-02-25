@@ -52,7 +52,7 @@ pushd home
 link_configs
 
 # Symlink submodules
-git submodule status -- . | awk '{ print $2  }' | xargs -I {} sh -c "rm -rf ~/{}; ln -sf ${PWD}/{} ~/{}"
+git submodule status -- . | awk '{ print $2 }' | xargs -I {} sh -c "rm -rf ~/{}; ln -sf ${PWD}/{} ~/{}"
 
 # Update submodules
 git submodule update --init --recursive .
