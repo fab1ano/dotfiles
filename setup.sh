@@ -7,7 +7,7 @@ set -e
 # Usage: setup.sh [custom_home]
 if [[ $# -eq 1 && -d $1 ]]; then
   custom_home=1
-  export HOME=$1
+  export HOME=$(realpath $1)
 fi
 
 
