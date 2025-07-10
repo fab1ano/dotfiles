@@ -33,3 +33,6 @@ Gemfile.lock
 
 # ctags
 tags
+
+# aider
+.aider*
