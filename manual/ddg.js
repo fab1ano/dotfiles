@@ -36,12 +36,13 @@ function matches(url, index, array) {
 
 domains = [
     'https://aflplus.plus',
-    'https://doc.rust-lang.org/',
+    'https://doc.rust-lang.org',
     'https://docs.python.org',
     'https://docs.rs/',
     'https://gatech.instructure.com',
     'https://software.intel.com/sites/landingpage/pintool/',
     'https://www.google.com',
+    'https://docs.oracle.com/javase',
 ];
 
 if (domains.some(matches)) {
