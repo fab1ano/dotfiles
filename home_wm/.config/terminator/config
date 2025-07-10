@@ -10,7 +10,7 @@
   [[bright]]
     background_color = "#ffffd7"
     cursor_color = "#202020"
-    font = Monospace 9
+    font = Monospace 11
     foreground_color = "#202020"
     show_titlebar = False
     scrollbar_position = hidden
