@@ -67,20 +67,27 @@ def get_vm_status():
     return status_str, color
 
 
-def get_clockify_status():
+def get_clockify_status(summary=False):
     """Get current clockify status."""
     status_str = ''
     color = '#FFFFFF'
 
-    try:
-        time_entry = subprocess.run(['timeout', '5', 'clockify-cli', 'show', 'current'],
-                stdout=subprocess.PIPE).stdout.decode('utf-8').split('\n')
-        if len(time_entry) >= 5:
-            line = time_entry[3].split('|')
-            duration = line[4].strip()[:-3]
-            project = line[5].strip()
+    cmd = ['timeout', '5', 'clockify-cli', 'show', 'current']
+    if summary:
+        cmd = ['timeout', '5', 'clockify-cli', 'report', 'today', '-D']
 
-            status_str += f'{project} ({duration})'
+    try:
+        time_entry = subprocess.run(cmd,
+                stdout=subprocess.PIPE).stdout.decode('utf-8').split('\n')
+        if summary:
+            status_str += time_entry[0].strip()[:-3]
+        else:
+            if len(time_entry) >= 5:
+                line = time_entry[3].split('|')
+                duration = line[4].strip()[:-3]
+                project = line[5].strip()
+
+                status_str += f'{project} ({duration})'
 
     except:
         status_str = 'clockify error'
@@ -129,6 +136,8 @@ if __name__ == '__main__':
         j.insert(0, {'color' : cpu_color, 'full_text' : cpu_text, 'name' : 'cpu_usage'})
         vm_text, vm_color = get_vm_status()
         j.insert(0, {'color' : vm_color, 'full_text' : vm_text, 'name' : 'vm_status'})
+        clockify_sum_text, vm_color = get_clockify_status(summary=True)
+        j.insert(0, {'color' : vm_color, 'full_text' : clockify_sum_text, 'name' : 'clockify_sum_status'})
         clockify_text, vm_color = get_clockify_status()
         j.insert(0, {'color' : vm_color, 'full_text' : clockify_text, 'name' : 'clockify_status'})
 
