@@ -230,8 +230,8 @@ exec_always --no-startup-id xset s 530 60
 exec_always --no-startup-id xss-lock -n ~/.i3/dim-screen.sh -- i3lock --color \#2f343f
 
 # Screenshots ..
-bindsym --release Print exec --no-startup-id scrot -s
-bindsym --release $mod+Print exec --no-startup-id scrot -s -e 'mv $f /tmp/ && cat /tmp/$f | xclip -selection c -t image/png' `date +%Y-%m-%d_%H:%M:%S`.png
+bindsym --release Print exec --no-startup-id scrot -s -f
+bindsym --release $mod+Print exec --no-startup-id scrot -s -f -e 'mv $f /tmp/ && cat /tmp/$f | xclip -selection c -t image/png' `date +%Y-%m-%d_%H:%M:%S`.png
 
 # keepmenu
 bindsym --release $mod+k exec --no-startup-id keepmenu --autotype {USERNAME}{TAB}{PASSWORD}
