@@ -90,6 +90,17 @@ match OverLength /\%81v./
 " Load the lua configuration file
 luafile ~/.vim/init.lua
 
+" Strip trailing whitespaces on save
+function! <SID>StripTrailingWhitespaces()
+  if !&binary && &filetype != 'diff'
+    let l:save = winsaveview()
+    keeppatterns %s/\s\+$//e
+    call winrestview(l:save)
+  endif
+endfun
+
+autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+
 " Mappings for neo-tree
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
