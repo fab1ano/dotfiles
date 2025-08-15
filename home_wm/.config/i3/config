@@ -274,4 +274,4 @@ bindsym $mod+minus [class="^org.jabref.gui.JabRefGUI$"] scratchpad show; floatin
 
 # ChatGPT
 for_window [window_role="Terminator-ChatGPT"] floating enable, resize set 600 600, move 300 300
-bindsym $mod+c exec --no-startup-id terminator -r Terminator-ChatGPT -p bright -x chatgpt
+bindsym $mod+c exec --no-startup-id terminator -r Terminator-ChatGPT -p bright -x vimchat

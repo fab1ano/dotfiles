@@ -1,3 +1,3 @@
-#!/bin/bash
+#!/bin/sh
 
-zsh -ic 'v -p -c "call StartAIChat()"'
+chromium --app=https://chatgpt.com/ --load-extension=/home/$(whoami)/.chromium_extensions/chatgpt --user-data-dir=/home/$(whoami)/.config/chromium-chatgpt
