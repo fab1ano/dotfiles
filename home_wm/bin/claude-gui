@@ -1,0 +1,3 @@
+#!/bin/sh
+
+chromium --app=https://claude.ai/ --load-extension=/home/$(whoami)/.chromium_extensions/claude --user-data-dir=/home/$(whoami)/.config/chromium-claude
