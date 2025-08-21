@@ -5,14 +5,21 @@ set -e
 
 # Show help
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
-  echo "Usage: setup.sh [custom_home]"
+  echo "Usage: setup.sh [OPTIONS] [custom_home]"
   echo ""
   echo "Options:"
-  echo "  -h, --help    Show this help message"
-  echo "  custom_home   Custom home directory path"
+  echo "  -h, --help      Show this help message"
+  echo "  --link-only     Only link config files, skip installations"
+  echo "  custom_home     Custom home directory path"
   echo ""
   echo "This script sets up dotfiles and installs development tools."
   exit 0
+fi
+
+# Check for link-only mode
+if [[ "$1" == "--link-only" ]]; then
+  link_only=1
+  shift
 fi
 
 # Usage: setup.sh [custom_home]
@@ -22,7 +29,13 @@ if [[ $# -eq 1 && -d $1 ]]; then
 fi
 
 
-function link_configs() {
+# Check if X-Server is running
+if command -v xset &> /dev/null && xset q &> /dev/null; then
+    install_wm=1
+fi
+
+
+function link_configs_helper() {
   for config_file in $(git ls-tree -r --name-only main .); do
     if [[ -f $config_file ]]; then
       mkdir -p $(dirname ~/$config_file)
@@ -31,10 +44,30 @@ function link_configs() {
   done
 }
 
+function link_all_configs() {
+  # Link home configs
+  pushd home
+  link_configs_helper
+  # Symlink submodules
+  git submodule status -- . | awk '{ print $2 }' | xargs -I {} sh -c "rm -rf ~/{}; ln -sf ${PWD}/{} ~/{}"
+  # Update submodules
+  git submodule update --init --recursive .
+  popd
 
-# Check if X-Server is running
-if command -v xset &> /dev/null && xset q &> /dev/null; then
-    install_wm=1
+  # Link window manager configs if X-Server is running
+  if [[ -n "$install_wm" && -d "home_wm" ]]; then
+    pushd home_wm
+    link_configs_helper
+    popd
+  fi
+}
+
+
+# Handle link-only mode
+if [[ -n "$link_only" ]]; then
+  link_all_configs
+  echo "Config files linked successfully."
+  exit 0
 fi
 
 
@@ -64,18 +97,7 @@ sudo apt install -y curl gdb htop neovim tmux tree vim virtualenvwrapper wget xc
 
 
 # Link all configs
-pushd home
-
-# Link config files
-link_configs
-
-# Symlink submodules
-git submodule status -- . | awk '{ print $2 }' | xargs -I {} sh -c "rm -rf ~/{}; ln -sf ${PWD}/{} ~/{}"
-
-# Update submodules
-git submodule update --init --recursive .
-
-popd
+link_all_configs
 
 
 # Install GEF
@@ -109,11 +131,6 @@ if [[ -n "$install_wm" ]]; then
   sudo apt update
   sudo apt install -y arc-theme autorandr blueman brightnessctl dunst feh fonts-font-awesome i3 i3lock i3status inputplug pasystray pipx redshift scrot terminator vim-gtk3 xdotool
   pipx install keepmenu
-
-  # Link window manager config files
-  pushd home_wm
-  link_configs
-  popd
 
   # Update redshift apparmor rules to allow reading the config file
   if ! grep -q "${PWD}/home_wm/.config/redshift.conf r," /etc/apparmor.d/local/usr.bin.redshift; then
