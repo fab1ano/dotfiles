@@ -3,6 +3,17 @@
 # Exit on error
 set -e
 
+# Show help
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+  echo "Usage: setup.sh [custom_home]"
+  echo ""
+  echo "Options:"
+  echo "  -h, --help    Show this help message"
+  echo "  custom_home   Custom home directory path"
+  echo ""
+  echo "This script sets up dotfiles and installs development tools."
+  exit 0
+fi
 
 # Usage: setup.sh [custom_home]
 if [[ $# -eq 1 && -d $1 ]]; then
