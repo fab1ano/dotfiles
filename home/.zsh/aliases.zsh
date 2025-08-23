@@ -19,8 +19,8 @@ alias psgr="ps aux | grep"
 alias gdb="gdb -q"
 
 alias gr="grep"
-alias rg="grep -rnI . -e"
-alias rgw="grep -rnIw . -e"
+#alias rg="grep -rnI . -e"
+#alias rgw="grep -rnIw . -e"
 
 alias g="git"
 alias gd="git diff"
