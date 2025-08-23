@@ -112,7 +112,7 @@ assign [instance="outlook"] $ws0
 assign [instance="slack"] $ws0
 
 # Browsing
-assign [class="Chromium" instance="^(?!www.overleaf.com)(?!www.notion.so).*"] $ws9
+assign [class="Chromium" instance="^(?!www.overleaf.com)(?!www.notion.so)(?!claude.ai)(?!chatgpt.com).*"] $ws9
 assign [class="Firefox"] $ws9
 assign [class="qutebrowser"] $ws9
 assign [class="Tor Browser"] $ws9
