@@ -33,6 +33,9 @@ Plug 'thesis/vim-solidity', {'branch': 'main' }
 
 " Some plugins only supported in NeoVim
 if has('nvim')
+  " CodeQL support
+  Plug 'pwntester/codeql.nvim'
+
   " Solarized theme for NeoVim
   Plug 'overcache/NeoSolarized'
 
@@ -51,6 +54,13 @@ if has('nvim')
 
   " LLM integration
   Plug 'madox2/vim-ai'
+
+  " LSP
+  Plug 'neovim/nvim-lspconfig'
+  "Plug 'mfussenegger/nvim-jdtls'
+
+  " Hex editor
+  Plug 'RaafatTurki/hex.nvim'
 endif
 
 call plug#end()
