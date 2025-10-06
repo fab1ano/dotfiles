@@ -101,6 +101,12 @@ endfun
 
 autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
+" Trigger autoread when file changes on disk
+set autoread
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+autocmd FileChangedShellPost *
+  \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
+
 " Mappings for neo-tree
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
