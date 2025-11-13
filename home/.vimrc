@@ -88,7 +88,9 @@ highlight OverLength ctermbg=7
 match OverLength /\%81v./
 
 " Load the lua configuration file
-luafile ~/.vim/init.lua
+if has('lua')
+  luafile ~/.vim/init.lua
+endif
 
 " Strip trailing whitespaces on save
 function! <SID>StripTrailingWhitespaces()
