@@ -112,7 +112,7 @@ assign [instance="outlook"] $ws0
 assign [instance="slack"] $ws0
 
 # Browsing
-assign [class="Chromium" instance="^(?!www.overleaf.com)(?!www.notion.so)(?!claude.ai)(?!chatgpt.com).*"] $ws9
+assign [class="Chromium" instance="^(?!www.overleaf.com)(?!www.notion.so)(?!claude.ai)(?!chatgpt.com)(?!gemini.google.com).*"] $ws9
 assign [class="Firefox"] $ws9
 assign [class="qutebrowser"] $ws9
 assign [class="Tor Browser"] $ws9
@@ -187,9 +187,9 @@ exec --no-startup-id ~/.screenlayout/default.sh
 exec setxkbmap -option altwin:swap_lalt_lwin
 
 # Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q set Master 2dB+ unmute
-bindsym XF86AudioLowerVolume exec --no-startup-id amixer -q set Master 2dB- unmute
-bindsym XF86AudioMute exec --no-startup-id amixer -D pulse set Master Playback Switch toggle
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q set Master 5%+ unmute
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -q set Master 5%- unmute
+bindsym XF86AudioMute exec --no-startup-id amixer -q set Master Playback Switch toggle
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl s +10%
@@ -273,5 +273,5 @@ bindsym $mod+Shift+minus [class="^org.jabref.gui.JabRefGUI$"] move scratchpad
 bindsym $mod+minus [class="^org.jabref.gui.JabRefGUI$"] scratchpad show; floating disable
 
 # ChatGPT
-for_window [window_role="Terminator-ChatGPT"] floating enable, resize set 600 600, move 300 300
+for_window [window_role="Terminator-ChatGPT"] floating enable, resize set 1000 1000, move position center
 bindsym $mod+c exec --no-startup-id terminator -r Terminator-ChatGPT -p bright -x vimchat
