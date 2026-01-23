@@ -36,3 +36,9 @@ tags
 
 # aider
 .aider*
+
+# Claude Code
+.claude
+
+# Drawio
+.*.drawio.bkp
