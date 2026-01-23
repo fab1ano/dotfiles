@@ -43,7 +43,7 @@ if has('nvim')
   Plug 'github/copilot.vim'
 
   " Centered view
-  Plug 'fab1ano/no-neck-pain.nvim'
+  Plug 'shortcuts/no-neck-pain.nvim'
 
   " Neotree
   Plug 'nvim-neo-tree/neo-tree.nvim'
