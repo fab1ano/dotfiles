@@ -1,0 +1,202 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Docker-based sandbox for Claude Code.
+# Usage: yolo [WORKDIR] [-- COMMAND [ARGS...]]
+#        yolo list
+#        yolo stop [WORKDIR]
+#        yolo rm [WORKDIR]
+#        yolo reset [WORKDIR]
+#        yolo build
+
+IMAGE_NAME="yolo-jail"
+
+# --- Embedded image build ---
+
+build_image() {
+    local build_dir
+    build_dir=$(mktemp -d)
+    trap "rm -rf '$build_dir'" RETURN
+
+    cat > "$build_dir/Dockerfile" <<'DOCKERFILE'
+FROM docker:dind AS dind
+
+FROM ubuntu:24.04
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git ca-certificates curl openssh-client \
+    sudo libnotify-bin iptables \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=dind /usr/local/bin/docker* /usr/local/bin/
+COPY --from=dind /usr/local/bin/containerd* /usr/local/bin/
+COPY --from=dind /usr/local/bin/runc /usr/local/bin/runc
+
+RUN groupadd -f docker
+
+RUN echo "%sudo ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/yolo \
+    && chmod 440 /etc/sudoers.d/yolo
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+DOCKERFILE
+
+    cat > "$build_dir/entrypoint.sh" <<'ENTRYPOINT'
+#!/bin/bash
+USERNAME="${YOLO_USER:-yolo}"
+
+if ! getent passwd "$USERNAME" &>/dev/null; then
+    echo "$USERNAME:x:$YOLO_UID:$YOLO_GID::$HOME:/bin/bash" >> /etc/passwd
+    echo "$USERNAME:*:19000:0:99999:7:::" >> /etc/shadow
+fi
+if ! getent group "$YOLO_GID" &>/dev/null; then
+    echo "$USERNAME:x:$YOLO_GID:" >> /etc/group
+fi
+
+usermod -aG docker,sudo "$USERNAME" 2>/dev/null || true
+
+mkdir -p "$HOME"
+touch "$HOME/.sudo_as_admin_successful"
+chown -R "$YOLO_UID:$YOLO_GID" "$HOME"
+
+dockerd --host unix:///var/run/docker.sock --storage-driver vfs \
+    --log-level error &>/var/log/dockerd.log &
+
+for i in $(seq 1 30); do
+    docker info &>/dev/null && break
+    sleep 0.2
+done
+
+exec sleep infinity
+ENTRYPOINT
+
+    echo "Building $IMAGE_NAME image..."
+    docker build -t "$IMAGE_NAME" "$build_dir"
+}
+
+# --- Helpers ---
+
+container_name() {
+    local dir="$(realpath "${1:-.}")"
+    echo "yolo-$(basename "$dir")-$(echo -n "$dir" | md5sum | head -c 8)"
+}
+
+# --- Subcommands ---
+
+case "${1:-}" in
+    list)
+        docker ps -a --filter "name=^yolo-" --format "table {{.Names}}\t{{.Status}}\t{{.CreatedAt}}"
+        exit 0
+        ;;
+    stop)
+        docker stop "$(container_name "${2:-.}")" 2>/dev/null && echo "Stopped." || echo "Not running."
+        exit 0
+        ;;
+    rm)
+        docker rm -f "$(container_name "${2:-.}")" 2>/dev/null && echo "Removed." || echo "Not found."
+        exit 0
+        ;;
+    reset)
+        docker rm -f "$(container_name "${2:-.}")" 2>/dev/null || true
+        echo "Removed. Will recreate on next run."
+        exit 0
+        ;;
+    build)
+        build_image
+        exit 0
+        ;;
+esac
+
+# --- Default: run in sandbox ---
+
+WORKDIR="${1:-.}"
+shift 2>/dev/null || true
+
+COMMAND=()
+for arg in "$@"; do
+    if [[ "$arg" == "--" ]]; then
+        shift
+        COMMAND=("$@")
+        break
+    fi
+done
+[[ ${#COMMAND[@]} -eq 0 ]] && COMMAND=(claude)
+
+WORKDIR="$(realpath "$WORKDIR")"
+CONTAINER_NAME="$(container_name "$WORKDIR")"
+
+CLAUDE_LINK="$HOME/.local/bin/claude"
+CLAUDE_SHARE="$HOME/.local/share/claude"
+
+# Auto-build image if missing
+if ! docker image inspect "$IMAGE_NAME" &>/dev/null; then
+    build_image
+fi
+
+UID_VAL="$(id -u)"
+GID_VAL="$(id -g)"
+
+TTY_FLAG=()
+[[ -t 0 ]] && TTY_FLAG=(-it)
+
+# Ensure container is running
+CONTAINER_STATE="$(docker inspect --format '{{.State.Status}}' "$CONTAINER_NAME" 2>/dev/null)" || CONTAINER_STATE="none"
+
+if [[ "$CONTAINER_STATE" == "none" ]]; then
+    run_args=(
+        docker run -d
+        --name "$CONTAINER_NAME"
+        --privileged
+        --network host
+        --workdir "$WORKDIR"
+        -e "YOLO_UID=$UID_VAL"
+        -e "YOLO_GID=$GID_VAL"
+        -e "YOLO_USER=$(id -un)"
+        -e "HOME=$HOME"
+    )
+
+    run_args+=(-v "$WORKDIR:$WORKDIR")
+
+    [[ -L "$CLAUDE_LINK" ]] && run_args+=(-v "$CLAUDE_LINK:$CLAUDE_LINK:ro")
+    [[ -d "$CLAUDE_SHARE" ]] && run_args+=(-v "$CLAUDE_SHARE:$CLAUDE_SHARE:ro")
+
+    [[ -d "$HOME/.claude" ]] && run_args+=(-v "$HOME/.claude:$HOME/.claude")
+    [[ -f "$HOME/.claude.json" ]] && run_args+=(-v "$HOME/.claude.json:$HOME/.claude.json")
+
+    DBUS_PATH="/run/user/$UID_VAL/bus"
+    [[ -S "$DBUS_PATH" ]] && run_args+=(-v "$DBUS_PATH:$DBUS_PATH")
+
+    run_args+=("$IMAGE_NAME")
+    "${run_args[@]}" >/dev/null
+
+    for _ in $(seq 1 30); do
+        docker exec "$CONTAINER_NAME" test -f /etc/sudoers.d/yolo 2>/dev/null && break
+        sleep 0.2
+    done
+    CONTAINER_STATE="running"
+fi
+
+if [[ "$CONTAINER_STATE" == "exited" ]]; then
+    docker start "$CONTAINER_NAME" >/dev/null
+    for _ in $(seq 1 30); do
+        docker exec "$CONTAINER_NAME" test -f /etc/sudoers.d/yolo 2>/dev/null && break
+        sleep 0.2
+    done
+fi
+
+# Forward all host environment variables
+env_args=()
+while IFS='=' read -r key _; do
+    env_args+=(-e "$key")
+done < <(env)
+env_args+=(-e "PATH=$HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin")
+env_args+=(-e "HOME=$HOME")
+
+# Exec as target user with supplementary groups (docker, sudo)
+printf -v CMD_STR '%q ' "${COMMAND[@]}"
+exec docker exec "${TTY_FLAG[@]}" "${env_args[@]}" \
+    -w "$WORKDIR" \
+    "$CONTAINER_NAME" \
+    setpriv --reuid="$UID_VAL" --regid="$GID_VAL" --init-groups \
+    bash -c "$CMD_STR"
