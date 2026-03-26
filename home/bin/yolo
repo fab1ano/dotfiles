@@ -25,7 +25,7 @@ FROM ubuntu:24.04
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git ca-certificates curl openssh-client \
-    sudo libnotify-bin iptables \
+    sudo libnotify-bin iptables nodejs \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=dind /usr/local/bin/docker* /usr/local/bin/
@@ -121,7 +121,7 @@ for arg in "$@"; do
         break
     fi
 done
-[[ ${#COMMAND[@]} -eq 0 ]] && COMMAND=(claude)
+[[ ${#COMMAND[@]} -eq 0 ]] && COMMAND=(claude --dangerously-skip-permissions)
 
 WORKDIR="$(realpath "$WORKDIR")"
 CONTAINER_NAME="$(container_name "$WORKDIR")"
