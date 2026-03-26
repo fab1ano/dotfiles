@@ -9,7 +9,7 @@ set -euo pipefail
 #        yolo reset [WORKDIR]
 #        yolo build
 
-IMAGE_NAME="yolo-jail"
+IMAGE_NAME="yolo-jail:1.0.0"
 
 # --- Embedded image build ---
 
