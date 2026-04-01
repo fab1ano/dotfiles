@@ -9,7 +9,7 @@ set -euo pipefail
 #        yolo reset [WORKDIR]
 #        yolo build
 
-IMAGE_NAME="yolo-jail:1.1.0"
+IMAGE_NAME="yolo-jail:1.2.0"
 
 # --- Embedded image build ---
 
@@ -25,7 +25,7 @@ FROM ubuntu:24.04
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git ca-certificates curl openssh-client \
-    sudo libnotify-bin iptables nodejs \
+    sudo libnotify-bin iptables nodejs htop \
     python3 python3-pip python3-venv \
     && rm -rf /var/lib/apt/lists/* \
     && curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR=/usr/local/bin sh
@@ -63,6 +63,7 @@ touch "$HOME/.sudo_as_admin_successful"
 chown -R "$YOLO_UID:$YOLO_GID" "$HOME"
 
 dockerd --host unix:///var/run/docker.sock --storage-driver vfs \
+    --iptables=false --ip-masq=false \
     --log-level error &>/var/log/dockerd.log &
 
 for i in $(seq 1 30); do
@@ -148,6 +149,7 @@ CONTAINER_STATE="$(docker inspect --format '{{.State.Status}}' "$CONTAINER_NAME"
 if [[ "$CONTAINER_STATE" == "none" ]]; then
     run_args=(
         docker run -d
+        --init
         --name "$CONTAINER_NAME"
         --privileged
         --network host
