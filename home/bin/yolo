@@ -9,7 +9,7 @@ set -euo pipefail
 #        yolo reset [WORKDIR]
 #        yolo build
 
-IMAGE_NAME="yolo-jail:1.0.0"
+IMAGE_NAME="yolo-jail:1.1.0"
 
 # --- Embedded image build ---
 
@@ -26,7 +26,9 @@ FROM ubuntu:24.04
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git ca-certificates curl openssh-client \
     sudo libnotify-bin iptables nodejs \
-    && rm -rf /var/lib/apt/lists/*
+    python3 python3-pip python3-venv \
+    && rm -rf /var/lib/apt/lists/* \
+    && curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR=/usr/local/bin sh
 
 COPY --from=dind /usr/local/bin/docker* /usr/local/bin/
 COPY --from=dind /usr/local/bin/containerd* /usr/local/bin/
