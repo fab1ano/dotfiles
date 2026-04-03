@@ -56,17 +56,19 @@ if ! getent group "$YOLO_GID" &>/dev/null; then
     echo "$USERNAME:x:$YOLO_GID:" >> /etc/group
 fi
 
-usermod -aG docker,sudo "$USERNAME" 2>/dev/null || true
+for g in docker sudo; do
+    gpasswd -a "$USERNAME" "$g" 2>/dev/null || true
+done
 
 mkdir -p "$HOME"
 touch "$HOME/.sudo_as_admin_successful"
 chown -R "$YOLO_UID:$YOLO_GID" "$HOME"
 
-dockerd --host unix:///var/run/docker.sock --storage-driver vfs \
+dockerd --host unix:///var/run/docker.sock --group docker --storage-driver vfs \
     --iptables=false --ip-masq=false \
     --log-level error &>/var/log/dockerd.log &
 
-for i in $(seq 1 30); do
+for _ in $(seq 1 30); do
     docker info &>/dev/null && break
     sleep 0.2
 done
@@ -83,6 +85,13 @@ ENTRYPOINT
 container_name() {
     local dir="$(realpath "${1:-.}")"
     echo "yolo-$(basename "$dir")-$(echo -n "$dir" | md5sum | head -c 8)"
+}
+
+wait_for_container() {
+    for _ in $(seq 1 30); do
+        docker exec "$1" test -f /etc/sudoers.d/yolo 2>/dev/null && return
+        sleep 0.2
+    done
 }
 
 # --- Subcommands ---
@@ -113,21 +122,23 @@ esac
 
 # --- Default: run in sandbox ---
 
-WORKDIR="${1:-.}"
+WORKDIR="$(realpath "${1:-.}")"
 shift 2>/dev/null || true
 
 COMMAND=()
-for arg in "$@"; do
-    if [[ "$arg" == "--" ]]; then
+while [[ $# -gt 0 ]]; do
+    if [[ "$1" == "--" ]]; then
         shift
         COMMAND=("$@")
         break
     fi
+    shift
 done
 [[ ${#COMMAND[@]} -eq 0 ]] && COMMAND=(claude --dangerously-skip-permissions)
 
-WORKDIR="$(realpath "$WORKDIR")"
 CONTAINER_NAME="$(container_name "$WORKDIR")"
+UID_VAL="$(id -u)"
+GID_VAL="$(id -g)"
 
 CLAUDE_LINK="$HOME/.local/bin/claude"
 CLAUDE_SHARE="$HOME/.local/share/claude"
@@ -136,9 +147,6 @@ CLAUDE_SHARE="$HOME/.local/share/claude"
 if ! docker image inspect "$IMAGE_NAME" &>/dev/null; then
     build_image
 fi
-
-UID_VAL="$(id -u)"
-GID_VAL="$(id -g)"
 
 TTY_FLAG=()
 [[ -t 0 ]] && TTY_FLAG=(-it)
@@ -174,19 +182,10 @@ if [[ "$CONTAINER_STATE" == "none" ]]; then
     run_args+=("$IMAGE_NAME")
     "${run_args[@]}" >/dev/null
 
-    for _ in $(seq 1 30); do
-        docker exec "$CONTAINER_NAME" test -f /etc/sudoers.d/yolo 2>/dev/null && break
-        sleep 0.2
-    done
-    CONTAINER_STATE="running"
-fi
-
-if [[ "$CONTAINER_STATE" == "exited" ]]; then
+    wait_for_container "$CONTAINER_NAME"
+elif [[ "$CONTAINER_STATE" == "exited" ]]; then
     docker start "$CONTAINER_NAME" >/dev/null
-    for _ in $(seq 1 30); do
-        docker exec "$CONTAINER_NAME" test -f /etc/sudoers.d/yolo 2>/dev/null && break
-        sleep 0.2
-    done
+    wait_for_container "$CONTAINER_NAME"
 fi
 
 # Forward all host environment variables
@@ -198,9 +197,12 @@ env_args+=(-e "PATH=$HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/u
 env_args+=(-e "HOME=$HOME")
 
 # Exec as target user with supplementary groups (docker, sudo)
+DOCKER_GID="$(docker exec "$CONTAINER_NAME" getent group docker | cut -d: -f3)"
+SUDO_GID="$(docker exec "$CONTAINER_NAME" getent group sudo | cut -d: -f3)"
+
 printf -v CMD_STR '%q ' "${COMMAND[@]}"
 exec docker exec "${TTY_FLAG[@]}" "${env_args[@]}" \
     -w "$WORKDIR" \
     "$CONTAINER_NAME" \
-    setpriv --reuid="$UID_VAL" --regid="$GID_VAL" --init-groups \
+    setpriv --reuid="$UID_VAL" --regid="$GID_VAL" --groups="$DOCKER_GID,$SUDO_GID" \
     bash -c "$CMD_STR"
