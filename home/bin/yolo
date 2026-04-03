@@ -2,14 +2,8 @@
 set -euo pipefail
 
 # Docker-based sandbox for Claude Code.
-# Usage: yolo [WORKDIR] [-- COMMAND [ARGS...]]
-#        yolo list
-#        yolo stop [WORKDIR]
-#        yolo rm [WORKDIR]
-#        yolo reset [WORKDIR]
-#        yolo build
 
-IMAGE_NAME="yolo-jail:1.2.0"
+IMAGE_NAME="yolo-jail:1.3.0"
 
 # --- Embedded image build ---
 
@@ -97,6 +91,20 @@ wait_for_container() {
 # --- Subcommands ---
 
 case "${1:-}" in
+    help|-h|--help)
+        echo "Usage: yolo [WORKDIR] [-- COMMAND [ARGS...]]"
+        echo ""
+        echo "Run Claude Code in a sandboxed Docker container."
+        echo "Defaults to current directory and 'claude --dangerously-skip-permissions'."
+        echo ""
+        echo "Commands:"
+        echo "  list          List all yolo containers"
+        echo "  stop [DIR]    Stop container for DIR (default: .)"
+        echo "  rm [DIR]      Remove container for DIR (default: .)"
+        echo "  build         Rebuild the sandbox image"
+        echo "  help          Show this help"
+        exit 0
+        ;;
     list)
         docker ps -a --filter "name=^yolo-" --format "table {{.Names}}\t{{.Status}}\t{{.CreatedAt}}"
         exit 0
@@ -107,11 +115,6 @@ case "${1:-}" in
         ;;
     rm)
         docker rm -f "$(container_name "${2:-.}")" 2>/dev/null && echo "Removed." || echo "Not found."
-        exit 0
-        ;;
-    reset)
-        docker rm -f "$(container_name "${2:-.}")" 2>/dev/null || true
-        echo "Removed. Will recreate on next run."
         exit 0
         ;;
     build)
