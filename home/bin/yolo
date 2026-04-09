@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Docker-based sandbox for Claude Code.
 
-IMAGE_NAME="yolo-jail:1.3.0"
+IMAGE_NAME="yolo-jail:1.4.0"
 
 # --- Embedded image build ---
 
@@ -59,7 +59,7 @@ touch "$HOME/.sudo_as_admin_successful"
 chown -R "$YOLO_UID:$YOLO_GID" "$HOME"
 
 dockerd --host unix:///var/run/docker.sock --group docker --storage-driver vfs \
-    --iptables=false --ip-masq=false \
+    --iptables=false --ip-masq=false --bridge=none \
     --log-level error &>/var/log/dockerd.log &
 
 for _ in $(seq 1 30); do
@@ -172,6 +172,7 @@ if [[ "$CONTAINER_STATE" == "none" ]]; then
     )
 
     run_args+=(-v "$WORKDIR:$WORKDIR")
+    run_args+=(-v /etc/resolv.conf:/etc/resolv.conf:ro)
 
     [[ -L "$CLAUDE_LINK" ]] && run_args+=(-v "$CLAUDE_LINK:$CLAUDE_LINK:ro")
     [[ -d "$CLAUDE_SHARE" ]] && run_args+=(-v "$CLAUDE_SHARE:$CLAUDE_SHARE:ro")
