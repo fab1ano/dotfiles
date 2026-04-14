@@ -88,7 +88,7 @@ highlight OverLength ctermbg=7
 match OverLength /\%81v./
 
 " Load the lua configuration file
-if has('lua')
+if has('nvim')
   luafile ~/.vim/init.lua
 endif
 

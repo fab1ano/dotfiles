@@ -57,7 +57,18 @@ if has('nvim')
 
   " LSP
   Plug 'neovim/nvim-lspconfig'
+  Plug 'mason-org/mason.nvim'
+  Plug 'mason-org/mason-lspconfig.nvim'
   "Plug 'mfussenegger/nvim-jdtls'
+
+  " Symbol outline sidebar
+  Plug 'stevearc/aerial.nvim'
+
+  " Fuzzy picker (files, grep, lsp symbols/references)
+  Plug 'ibhagwan/fzf-lua'
+
+  " Diagnostics/references/symbols sidebar
+  Plug 'folke/trouble.nvim'
 
   " Hex editor
   Plug 'RaafatTurki/hex.nvim'

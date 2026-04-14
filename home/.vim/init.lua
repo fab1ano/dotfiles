@@ -44,32 +44,6 @@ if is_nvim then
   })
 
   --- LSP
-  require'lspconfig'.clangd.setup{
-    cmd = {
-      "clangd",
-      "--background-index",
-      "--clang-tidy",
-      "--header-insertion=iwyu",
-      "--completion-style=detailed",
-      "--function-arg-placeholders",
-      "--fallback-style=llvm",
-    },
-    init_options = {
-      usePlaceholders = true,
-      completeUnimported = true,
-      clangdFileStatus = true,
-    },
-    root_dir = require'lspconfig'.util.root_pattern(
-      '.clangd',
-      '.clang-tidy',
-      '.clang-format',
-      'compile_commands.json',
-      'compile_flags.txt',
-      'configure.ac',
-      '.git'
-    ),
-  }
-
   vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('UserLspConfig', {}),
     callback = function(ev)
@@ -85,8 +59,33 @@ if is_nvim then
     end,
   })
 
-  vim.lsp.enable('jdtls')
-  vim.lsp.enable('pyright')
+  require('mason').setup()
+  require('mason-lspconfig').setup({
+    ensure_installed = { 'pyright', 'jdtls', 'clangd' },
+  })
+
+  --- Symbol outline
+  require('aerial').setup({
+    layout = { default_direction = 'right', min_width = 30 },
+    attach_mode = 'global',
+  })
+  vim.keymap.set('n', '<leader>a', '<cmd>AerialToggle!<CR>')
+
+  --- Fuzzy picker
+  local fzf = require('fzf-lua')
+  fzf.setup({})
+  vim.keymap.set('n', '<leader>ff', fzf.files,             { desc = 'Find files' })
+  vim.keymap.set('n', '<leader>fg', fzf.live_grep,         { desc = 'Live grep' })
+  vim.keymap.set('n', '<leader>fb', fzf.buffers,           { desc = 'Buffers' })
+  vim.keymap.set('n', '<leader>fs', fzf.lsp_workspace_symbols, { desc = 'Workspace symbols' })
+  vim.keymap.set('n', '<leader>fd', fzf.lsp_document_symbols,  { desc = 'Document symbols' })
+  vim.keymap.set('n', '<leader>fr', fzf.lsp_references,    { desc = 'References' })
+
+  --- Diagnostics/references sidebar
+  require('trouble').setup({})
+  vim.keymap.set('n', '<leader>xx', '<cmd>Trouble diagnostics toggle<CR>')
+  vim.keymap.set('n', '<leader>xs', '<cmd>Trouble symbols toggle focus=false<CR>')
+  vim.keymap.set('n', '<leader>xr', '<cmd>Trouble lsp_references toggle<CR>')
 
   --- Hex editor
   require 'hex'.setup()
