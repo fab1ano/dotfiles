@@ -187,7 +187,9 @@ if [[ "$CONTAINER_STATE" == "none" ]]; then
     [[ -f "$HOME/.claude.json" ]] && run_args+=(-v "$HOME/.claude.json:$HOME/.claude.json")
 
     DBUS_PATH="/run/user/$UID_VAL/bus"
-    [[ -S "$DBUS_PATH" ]] && run_args+=(-v "$DBUS_PATH:$DBUS_PATH")
+    DBUS_SRC="$DBUS_PATH-proxy"
+    [[ -S "$DBUS_SRC" ]] || DBUS_SRC="$DBUS_PATH"
+    [[ -S "$DBUS_SRC" ]] && run_args+=(-v "$DBUS_SRC:$DBUS_PATH")
 
     run_args+=("$IMAGE_NAME")
     "${run_args[@]}" >/dev/null
