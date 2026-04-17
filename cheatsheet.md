@@ -64,6 +64,18 @@ Leader = `\` (default).
 | `\rn` | Rename |
 | `\ca` | Code action |
 
+## Neovim — git (gitsigns)
+
+| Keys | Action |
+|---|---|
+| `]c` / `[c` | Next / prev hunk |
+| `\hs` | Stage hunk |
+| `\hr` | Reset hunk |
+| `\hp` | Preview hunk |
+| `\hb` | Full blame popup |
+| `\ht` | Toggle inline blame |
+| `\hd` | Diff current file vs index |
+
 ## Neovim — misc
 
 | Keys | Action |
