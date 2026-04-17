@@ -70,6 +70,9 @@ if has('nvim')
   " Diagnostics/references/symbols sidebar
   Plug 'folke/trouble.nvim'
 
+  " Git signs in the signcolumn
+  Plug 'lewis6991/gitsigns.nvim'
+
   " Hex editor
   Plug 'RaafatTurki/hex.nvim'
 endif
