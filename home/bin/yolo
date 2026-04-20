@@ -20,7 +20,7 @@ FROM ubuntu:24.04
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git ca-certificates curl openssh-client \
     sudo libnotify-bin iptables nodejs htop \
-    python3 python3-pip python3-venv \
+    python3 python3-pip python3-venv vim \
     && rm -rf /var/lib/apt/lists/* \
     && curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR=/usr/local/bin sh
 
@@ -65,7 +65,7 @@ rm -f /etc/resolv.conf
 # 3. Create the symlink to the host's dynamic DNS file
 ln -s /host-dns/resolv.conf /etc/resolv.conf
 
-dockerd --host unix:///var/run/docker.sock --group docker --storage-driver vfs \
+dockerd --host unix:///var/run/docker.sock --group docker --storage-driver overlay2 \
     --dns 8.8.8.8 --dns 1.1.1.1 \
     --log-level error &>/var/log/dockerd.log &
 
@@ -107,7 +107,7 @@ case "${1:-}" in
         echo "Commands:"
         echo "  list          List all yolo containers"
         echo "  stop [DIR]    Stop container for DIR (default: .)"
-        echo "  rm [DIR]      Remove container for DIR (default: .)"
+        echo "  rm [-v] [DIR] Remove container for DIR (default: .); -v also removes docker volume"
         echo "  build         Rebuild the sandbox image"
         echo "  help          Show this help"
         exit 0
@@ -121,7 +121,17 @@ case "${1:-}" in
         exit 0
         ;;
     rm)
-        docker rm -f "$(container_name "${2:-.}")" 2>/dev/null && echo "Removed." || echo "Not found."
+        shift
+        remove_volume=false
+        if [[ "${1:-}" == "-v" ]]; then
+            remove_volume=true
+            shift
+        fi
+        name="$(container_name "${1:-.}")"
+        docker rm -f "$name" 2>/dev/null && echo "Removed." || echo "Not found."
+        if $remove_volume; then
+            docker volume rm "${name}-docker" 2>/dev/null && echo "Volume removed." || echo "Volume not found."
+        fi
         exit 0
         ;;
     build)
@@ -178,6 +188,7 @@ if [[ "$CONTAINER_STATE" == "none" ]]; then
     )
 
     run_args+=(-v "$WORKDIR:$WORKDIR")
+    run_args+=(-v "${CONTAINER_NAME}-docker:/var/lib/docker")
     run_args+=(-v /run/systemd/resolve:/host-dns:ro)
 
     [[ -L "$CLAUDE_LINK" ]] && run_args+=(-v "$CLAUDE_LINK:$CLAUDE_LINK:ro")
