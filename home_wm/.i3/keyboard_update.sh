@@ -15,6 +15,14 @@ then
 #	xinput --set-prop $2 --type=float "Coordinate Transformation Matrix" 0.7071 -0.7071 0 0.7071 0.7071 0 0 0 1
 fi
 
+# Apple Touchpad
+if [ "$1 $3 $4" == "XIDeviceEnabled XISlavePointer Apple Inc. Magic Trackpad 2"  ]
+then
+	xinput --set-prop $2 'libinput Tapping Enabled' 1
+	xinput --set-prop $2 'libinput Accel Speed' 0.9
+#	xinput --set-prop $2 --type=float "Coordinate Transformation Matrix" 0.7071 -0.7071 0 0.7071 0.7071 0 0 0 1
+fi
+
 # Ball Mouse
 if [ "$1 $3 $4" == "XIDeviceEnabled XISlavePointer Kensington Expert Wireless TB Mouse"  ]
 then
